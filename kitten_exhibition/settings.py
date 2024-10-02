@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -27,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-lweyu%mqtb-bj8)p@*zi8usrdnl8ei!b!2!1vn@2*^posz_4p-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "false").lower() == "true"
+DEBUG = True
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOST", "127.0.0.1").split(",")
 
@@ -43,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'kittens',
     'rest_framework',
+    "rest_framework.authtoken",
+    "rest_framework_simplejwt.token_blacklist",
 ]
 
 MIDDLEWARE = [
@@ -58,8 +61,10 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'kitten_exhibition.urls'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
     ),
 }
 
@@ -94,6 +99,20 @@ DATABASES = {
         "HOST": os.getenv("DB_HOST", "localhost"),
         "PORT": "5432",
     }
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_COOKIE': 'jwt_access',  # Имя cookie для доступа
+    'AUTH_COOKIE_REFRESH': 'jwt_refresh',  # Имя cookie для рефреш токена
+    'AUTH_COOKIE_SECURE': False,  # Установите True в продакшене
+    'AUTH_COOKIE_HTTP_ONLY': True,  # Скрываем cookie от JavaScript
+    'AUTH_COOKIE_PATH': '/',  # Пути для cookie
+    'AUTH_COOKIE_SAMESITE': 'Lax',
 }
 
 
