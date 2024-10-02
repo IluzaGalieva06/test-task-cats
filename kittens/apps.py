@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class KittensConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'kittens'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "kittens"
