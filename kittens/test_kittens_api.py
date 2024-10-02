@@ -24,7 +24,7 @@ def create_kitten(create_breed, create_user):
         user=create_user,
         color="White",
         age=2,
-        description="Cute little kitten"
+        description="Cute little kitten",
     )
 
 
@@ -73,7 +73,7 @@ def test_create_kitten(client, create_breed, create_user):
         "breed": create_breed.id,
         "color": "Black",
         "age": 3,
-        "description": "Playful kitten"
+        "description": "Playful kitten",
     }
 
     response = client.post(reverse("kitten-create"), data=data)
@@ -91,19 +91,20 @@ def test_update_kitten(client, create_breed, create_kitten):
         "breed": create_breed.id,
         "color": "Grey",
         "age": 3,
-        "description": "Updated kitten description"
+        "description": "Updated kitten description",
     }
 
-    response = client.put(reverse("kitten-update", args=[create_kitten.id]),
-                          data=updated_data,
-                          content_type='application/json')
+    response = client.put(
+        reverse("kitten-update", args=[create_kitten.id]),
+        data=updated_data,
+        content_type="application/json",
+    )
 
     assert response.status_code == status.HTTP_200_OK
     create_kitten.refresh_from_db()
     assert create_kitten.color == "Grey"
     assert create_kitten.age == 3
     assert create_kitten.description == "Updated kitten description"
-
 
 
 @pytest.mark.django_db
@@ -120,10 +121,7 @@ def test_delete_kitten(client, create_kitten):
 def test_login(client):
     User.objects.create_user(username="testuser", password="testpass")
 
-    data = {
-        "username": "testuser",
-        "password": "testpass"
-    }
+    data = {"username": "testuser", "password": "testpass"}
 
     response = client.post(reverse("login"), data=data)
 
@@ -133,7 +131,9 @@ def test_login(client):
 
 @pytest.mark.django_db
 def test_logout(client, create_user):
-    response = client.post(reverse("login"), {"username": "testuser", "password": "testpass"})
+    response = client.post(
+        reverse("login"), {"username": "testuser", "password": "testpass"}
+    )
     refresh_token = response.data["refresh"]
 
     response = client.post(reverse("logout"), {"refresh": refresh_token})
