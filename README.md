@@ -3,17 +3,17 @@
 
 1. **Создание виртуального окружения**:
     ```bash
-    python -m venv .venv
+    python -m venv venv
     ```
 
 2. **Активация виртуального окружения**:
     - Для Linux/MacOS:
       ```bash
-      source .venv/bin/activate
+      source venv/bin/activate
       ```
     - Для Windows:
       ```bash
-      .venv\Scripts\activate
+      venv\Scripts\activate
       ```
 
 3. **Установка зависимостей проекта**:
@@ -23,7 +23,7 @@
    
 4. **Применение миграций**:
    ```bash
-   python manage.py runserver
+   python manage.py migrate
    ```
 
 5. **Запуск проекта**:
@@ -39,4 +39,8 @@
 ## Запуск проекта с помощью Docker
    ```bash
     docker-compose up --build 
+   ```
+## Запуск тестов
+   ```bash
+   pytest
    ```
