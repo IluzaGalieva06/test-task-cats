@@ -49,7 +49,7 @@ class KittenCreateView(generics.CreateAPIView):
 
 
 # Изменение информации о котенке
-class KittenUpdateView(generics.UpdateAPIView):
+class KittenUpdateView(generics.RetrieveUpdateAPIView):
     queryset = Kitten.objects.all()
     serializer_class = KittenSerializer
     permission_classes = [IsAuthenticated]

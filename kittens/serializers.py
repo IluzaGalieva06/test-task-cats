@@ -9,7 +9,11 @@ class BreedSerializer(serializers.ModelSerializer):
 
 
 class KittenSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(source="user.username", read_only=True)
+    breed = serializers.PrimaryKeyRelatedField(queryset=Breed.objects.all())
+    breed_name = serializers.CharField(source="breed.name", read_only=True)
+
     class Meta:
         model = Kitten
-        fields = ["id", "breed", "color", "age", "description", "user"]
+        fields = ["id", "breed", "breed_name", "color", "age", "description", "user"]
         read_only_fields = ["user"]
