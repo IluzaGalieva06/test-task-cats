@@ -36,7 +36,7 @@
    pre-commit run -a
    ```
 
-##Запуск проекта с помощью Docker
+## Запуск проекта с помощью Docker
    ```bash
     docker-compose up --build 
    ```
